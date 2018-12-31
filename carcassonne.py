@@ -99,25 +99,24 @@ class Board:
 
 
     def print_board(self):
-        for row in self.rows[self.min_y :self.max_y +1]:
+        for y in range(self.min_y, self.max_y + 1):
+            row = self.rows[y]
             string0 = ''
             string1 = ''
             string2 = ''
             string3 = ''
-            for tile in row[self.min_x :self.max_x +1]:
-                middle = 'xx'
+            for x in range(self.min_x, self.max_x + 1):
+                tile = row[x]
                 string0 += '+----------'
                 if tile != None:
                     line1, line2, line3 = tile.tile_guts()
                     string1 += line1
                     string2 += line2
                     string3 += line3
-                    # string1 += '|    ' + tile.side_a + '    '
-                    # string2 += '| ' + tile.side_d + ' ' + middle + ' ' + tile.side_b + ' '
-                    # string3 += '|    ' + tile.side_c + '    '
                 else:
                     string1 += '|          '
-                    string2 += '|          '
+                    # TODO(bunny&friend): make it so that if the board gets above 99 or below 10 it doesn't mess up the spacing of the tiles 
+                    string2 += '|  '+ str(x) + ', ' + str(y) +'  '
                     string3 += '|          '
             string0 += '+'
             string1 += '|'
