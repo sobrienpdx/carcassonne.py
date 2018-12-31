@@ -9,6 +9,7 @@ class Tile:
         self.sheild = sheild
         self.monastary = monastary
 
+
     def tile_guts(self):
         if self.sheild:
             middle = 'Sx'
@@ -64,22 +65,6 @@ def draw_tile():
     deck.remove(tile)
     return tile
 
-# def print_tile(tile):
-#     line1, line2, line3 = tile.tile_guts()
-#     # if tile.sheild:
-#     #     middle = 'Sx'
-#     # elif tile.monastary:
-#     #     middle = 'Mx'
-#     # else:
-#     #     middle = 'ox'
-#
-#     print("+----------+")
-#     print(line1)
-#     print('| ' + tile.side_d + ' ' + middle + ' ' + tile.side_b + ' |')
-#     print('|    ' + tile.side_c + '    |')
-#     print('+----------+')
-
-
 
 class Board:
     def __init__(self):
@@ -90,7 +75,7 @@ class Board:
                 y_list.append(None)
             x_list.append(y_list)
         list = x_list[71]
-        list[71] = starter_tile
+        list[71] = (starter_tile, 0)
         self.rows = x_list
         self.min_x = 71
         self.max_x = 71
@@ -106,16 +91,16 @@ class Board:
             string2 = ''
             string3 = ''
             for x in range(self.min_x, self.max_x + 1):
-                tile = row[x]
                 string0 += '+----------'
-                if tile != None:
+                if row[x] != None:
+                    tile, rotation = row[x]
                     line1, line2, line3 = tile.tile_guts()
                     string1 += line1
                     string2 += line2
                     string3 += line3
                 else:
                     string1 += '|          '
-                    # TODO(bunny&friend): make it so that if the board gets above 99 or below 10 it doesn't mess up the spacing of the tiles 
+                    # TODO(bunny&friend): make it so that if the board gets above 99 or below 10 it doesn't mess up the spacing of the tiles
                     string2 += '|  '+ str(x) + ', ' + str(y) +'  '
                     string3 += '|          '
             string0 += '+'
@@ -132,8 +117,8 @@ class Board:
     def tile_at(self, x, y):
         pass
 
-    def place_tile(self, tile, x, y):
-        self.rows[y][x] = tile
+    def place_tile(self, tile, rotation, x, y):
+        self.rows[y][x] = (tile, rotation)
         if x > self.max_x:
             self.max_x = x
         elif x < self.min_x:
@@ -149,7 +134,7 @@ class Board:
 
 
 board = Board()
-board.place_tile(t1, 72, 71)
-board.place_tile(t8, 71, 72)
-board.place_tile(t8, 73, 71)
+board.place_tile(t1, 0, 72, 71)
+board.place_tile(t8, 0, 71, 72)
+board.place_tile(t8, 0, 73, 71)
 board.print_board()
