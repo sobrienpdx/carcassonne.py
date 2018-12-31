@@ -9,6 +9,20 @@ class Tile:
         self.sheild = sheild
         self.monastary = monastary
 
+    def tile_guts(self):
+        if self.sheild:
+            middle = 'Sx'
+        elif self.monastary:
+            middle = 'Mx'
+        else:
+            middle = 'ox'
+        line1 = '|    ' + self.side_a + '    '
+        line2 = '| ' + self.side_d + ' ' + middle + ' ' + self.side_b + ' '
+        line3 = '|    ' + self.side_c + '    '
+        return line1, line2, line3
+
+
+
 t1 = Tile('te', 'fx', 'fx', 'fx', False, False)
 t2 = Tile('te', 'te', 'fx', 'fx', False, False)
 t3 = Tile('te', 'fx', 'te', 'fx', False, False)
@@ -74,14 +88,6 @@ class Board:
         self.min_y = 71
         self.max_y = 71
 
-    # def print_board(self):
-    #     for x in self.rows[self.min_x -1 :self.max_x +1]:
-    #         for y in x[self.min_y -1 :self.max_y +1]:
-    #             if y != None:
-    #                 print_tile(y)
-    #             else:
-    #                 print('xxxxx')
-
 
     def print_board(self):
         for row in self.rows[self.min_x -1 :self.max_x +1]:
@@ -93,9 +99,13 @@ class Board:
                 middle = 'xx'
                 string0 += '+----------'
                 if tile != None:
-                    string1 += '|    ' + tile.side_a + '    '
-                    string2 += '| ' + tile.side_d + ' ' + middle + ' ' + tile.side_b + ' '
-                    string3 += '|    ' + tile.side_c + '    '
+                    line1, line2, line3 = tile.tile_guts()
+                    string1 += line1
+                    string2 += line2
+                    string3 += line3
+                    # string1 += '|    ' + tile.side_a + '    '
+                    # string2 += '| ' + tile.side_d + ' ' + middle + ' ' + tile.side_b + ' '
+                    # string3 += '|    ' + tile.side_c + '    '
                 else:
                     string1 += '|          '
                     string2 += '|          '
