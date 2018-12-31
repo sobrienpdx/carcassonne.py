@@ -22,6 +22,14 @@ class Tile:
         return line1, line2, line3
 
 
+    def print(self):
+        line1, line2, line3 = self.tile_guts()
+        print("+----------+")
+        print(line1 + '|')
+        print(line2 + '|')
+        print(line3 + '|')
+        print('+----------+')
+
 
 t1 = Tile('te', 'fx', 'fx', 'fx', False, False)
 t2 = Tile('te', 'te', 'fx', 'fx', False, False)
@@ -56,19 +64,20 @@ def draw_tile():
     deck.remove(tile)
     return tile
 
-def print_tile(tile):
-    if tile.sheild:
-        middle = 'Sx'
-    elif tile.monastary:
-        middle = 'Mx'
-    else:
-        middle = 'ox'
-
-    print("+----------+")
-    print('|    ' + tile.side_a + '    |')
-    print('| ' + tile.side_d + ' ' + middle + ' ' + tile.side_b + ' |')
-    print('|    ' + tile.side_c + '    |')
-    print('+----------+')
+# def print_tile(tile):
+#     line1, line2, line3 = tile.tile_guts()
+#     # if tile.sheild:
+#     #     middle = 'Sx'
+#     # elif tile.monastary:
+#     #     middle = 'Mx'
+#     # else:
+#     #     middle = 'ox'
+#
+#     print("+----------+")
+#     print(line1)
+#     print('| ' + tile.side_d + ' ' + middle + ' ' + tile.side_b + ' |')
+#     print('|    ' + tile.side_c + '    |')
+#     print('+----------+')
 
 
 
@@ -90,12 +99,12 @@ class Board:
 
 
     def print_board(self):
-        for row in self.rows[self.min_x -1 :self.max_x +1]:
+        for row in self.rows[self.min_y :self.max_y +1]:
             string0 = ''
             string1 = ''
             string2 = ''
             string3 = ''
-            for tile in row[self.min_y -1 :self.max_y +1]:
+            for tile in row[self.min_x :self.max_x +1]:
                 middle = 'xx'
                 string0 += '+----------'
                 if tile != None:
@@ -121,9 +130,6 @@ class Board:
         print(string0)
 
 
-
-
-
     def tile_at(self, x, y):
         pass
 
@@ -146,4 +152,5 @@ class Board:
 board = Board()
 board.place_tile(t1, 72, 71)
 board.place_tile(t8, 71, 72)
+board.place_tile(t8, 73, 71)
 board.print_board()
