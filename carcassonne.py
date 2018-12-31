@@ -90,26 +90,19 @@ class Board:
             string2 = ''
             string3 = ''
             for tile in row[self.min_y -1 :self.max_y +1]:
+                middle = 'xx'
                 string0 += '+----------'
-            string0 += '+'
-            for tile in row[self.min_y -1 :self.max_y +1]:
                 if tile != None:
                     string1 += '|    ' + tile.side_a + '    '
-                else:
-                    string1 += '|          '
-            string1 += '|'
-            for tile in row[self.min_y -1 :self.max_y +1]:
-                middle = 'xx'
-                if tile != None:
                     string2 += '| ' + tile.side_d + ' ' + middle + ' ' + tile.side_b + ' '
-                else:
-                    string2 += '|          '
-            string2 += '|'
-            for tile in row[self.min_y -1 :self.max_y +1]:
-                if tile != None:
                     string3 += '|    ' + tile.side_c + '    '
                 else:
+                    string1 += '|          '
+                    string2 += '|          '
                     string3 += '|          '
+            string0 += '+'
+            string1 += '|'
+            string2 += '|'
             string3 += '|'
             print(string0)
             print(string1)
