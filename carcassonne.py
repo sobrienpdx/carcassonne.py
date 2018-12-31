@@ -56,8 +56,6 @@ def print_tile(tile):
     print('|    ' + tile.side_c + '    |')
     print('+----------+')
 
-# test = draw_tile()
-# print_tile(test)
 
 
 class Board:
@@ -71,21 +69,73 @@ class Board:
         list = x_list[71]
         list[71] = starter_tile
         self.rows = x_list
+        self.min_x = 71
+        self.max_x = 71
+        self.min_y = 71
+        self.max_y = 71
+
+    # def print_board(self):
+    #     for x in self.rows[self.min_x -1 :self.max_x +1]:
+    #         for y in x[self.min_y -1 :self.max_y +1]:
+    #             if y != None:
+    #                 print_tile(y)
+    #             else:
+    #                 print('xxxxx')
+
 
     def print_board(self):
-        for x in self.rows:
-            for y in x:
-                if y != None:
-                    print_tile(y)
+        for row in self.rows[self.min_x -1 :self.max_x +1]:
+            string0 = ''
+            string1 = ''
+            string2 = ''
+            string3 = ''
+            for tile in row[self.min_y -1 :self.max_y +1]:
+                string0 += '+----------'
+            for tile in row[self.min_y -1 :self.max_y +1]:
+                if tile != None:
+                    string1 += '|    ' + tile.side_a + '    '
+                else:
+                    string1 += '|          '
+            for tile in row[self.min_y -1 :self.max_y +1]:
+                middle = 'xx'
+                if tile != None:
+                    string2 += '| ' + tile.side_d + ' ' + middle + ' ' + tile.side_b + ' '
+                else:
+                    string2 += '|          '
+            for tile in row[self.min_y -1 :self.max_y +1]:
+                if tile != None:
+                    string3 += '|    ' + tile.side_c + '    '
+                else:
+                    string3 += '|          '
+            print(string0)
+            print(string1)
+            print(string2)
+            print(string3)
+
+
+
+
 
     def tile_at(self, x, y):
         pass
 
     def place_tile(self, tile, x, y):
-        pass
+        self.rows[y][x] = tile
+        if x > self.max_x:
+            self.max_x = x
+        elif x < self.min_x:
+            self.min_x = x
+        if y > self.max_y:
+            self.max_y = y
+        elif y < self.min_y:
+            self.min_y = y
+
 
     def extent(self):
-        pass
+        return self.min_x, self.max_x, self.min_y, self.max_y
+
 
 board = Board()
+board.place_tile(t1, 72, 71)
+board.place_tile(t8, 71, 72)
 board.print_board()
