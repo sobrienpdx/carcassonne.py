@@ -10,26 +10,26 @@ class Tile:
         self.monastary = monastary
 
 
-    def tile_guts(self):
-        if self.sheild:
-            middle = 'Sx'
-        elif self.monastary:
-            middle = 'Mx'
-        else:
-            middle = 'ox'
-        line1 = '|    ' + self.side_a + '    '
-        line2 = '| ' + self.side_d + ' ' + middle + ' ' + self.side_b + ' '
-        line3 = '|    ' + self.side_c + '    '
-        return line1, line2, line3
-
-
-    def print(self):
-        line1, line2, line3 = self.tile_guts()
-        print("+----------+")
-        print(line1 + '|')
-        print(line2 + '|')
-        print(line3 + '|')
-        print('+----------+')
+    # def tile_guts(self):
+    #     if self.sheild:
+    #         middle = 'Sx'
+    #     elif self.monastary:
+    #         middle = 'Mx'
+    #     else:
+    #         middle = 'ox'
+    #     line1 = '|    ' + self.side_a + '    '
+    #     line2 = '| ' + self.side_d + ' ' + middle + ' ' + self.side_b + ' '
+    #     line3 = '|    ' + self.side_c + '    '
+    #     return line1, line2, line3
+    #
+    #
+    # def print(self):
+    #     line1, line2, line3 = self.tile_guts()
+    #     print("+----------+")
+    #     print(line1 + '|')
+    #     print(line2 + '|')
+    #     print(line3 + '|')
+    #     print('+----------+')
 
 
 t1 = Tile('te', 'fx', 'fx', 'fx', False, False)
@@ -60,6 +60,38 @@ starter_tile = t18
 master_deck = [t1, t1, t1, t1, t1, t2, t2, t3, t3, t3, t4, t5, t5, t6, t6, t6, t7, t7, t8, t8, t8, t9, t9, t10, t11, t11, t12, t13, t13, t13, t14, t14, t14, t14, t15, t15, t15, t16, t17, t17, t17, t18, t18, t18, t19, t19, t19, t20, t21, t21, t22, t22, t22, t22, t23, t23, t23, t23, t23, t23, t23, t23, t24, t24, t24, t24, t24, t24, t24, t24, t24] #starter tile not included
 deck = master_deck.copy()
 
+
+
+class TileState:
+    def __init__(self, tile, rotation=0):
+        self.tile = tile
+        self.roation = rotation
+
+
+    def tile_guts(self):
+        if self.tile.sheild:
+            middle = 'Sx'
+        elif self.tile.monastary:
+            middle = 'Mx'
+        else:
+            middle = 'ox'
+        # rotation is counter clockwise
+        sides =[self.tile.side_a, self.tile.side_b, self.tile.side_c, self.tile.side_d, self.tile.side_a, self.tile.side_b, self.tile.side_c]
+        line1 = '|    ' + sides[self.roation] + '    '
+        line2 = '| ' + sides[self.roation + 3] + ' ' + middle + ' ' + sides[self.roation + 1]+ ' '
+        line3 = '|    ' + sides[self.roation + 2 ]+ '    '
+        return line1, line2, line3
+
+
+    def print(self):
+        line1, line2, line3 = self.tile_guts()
+        print("+----------+")
+        print(line1 + '|')
+        print(line2 + '|')
+        print(line3 + '|')
+        print('+----------+')
+
+
 def draw_tile():
     tile = deck[random.randint(0,len(deck))]
     deck.remove(tile)
@@ -75,7 +107,7 @@ class Board:
                 y_list.append(None)
             x_list.append(y_list)
         list = x_list[71]
-        list[71] = (starter_tile, 0)
+        list[71] = TileState(starter_tile)
         self.rows = x_list
         self.min_x = 71
         self.max_x = 71
@@ -93,8 +125,7 @@ class Board:
             for x in range(self.min_x, self.max_x + 1):
                 string0 += '+----------'
                 if row[x] != None:
-                    tile, rotation = row[x]
-                    line1, line2, line3 = tile.tile_guts()
+                    line1, line2, line3 = row[x].tile_guts()
                     string1 += line1
                     string2 += line2
                     string3 += line3
@@ -118,7 +149,7 @@ class Board:
         pass
 
     def place_tile(self, tile, rotation, x, y):
-        self.rows[y][x] = (tile, rotation)
+        self.rows[y][x] = TileState(tile, rotation)
         if x > self.max_x:
             self.max_x = x
         elif x < self.min_x:
@@ -135,6 +166,6 @@ class Board:
 
 board = Board()
 board.place_tile(t1, 0, 72, 71)
-board.place_tile(t8, 0, 71, 72)
-board.place_tile(t8, 0, 73, 71)
+board.place_tile(t8, 1, 71, 72)
+board.place_tile(t8, 2, 73, 71)
 board.print_board()
