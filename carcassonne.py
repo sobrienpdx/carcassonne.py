@@ -116,13 +116,13 @@ class Board:
 
 
     def print_board(self):
-        for y in range(self.min_y, self.max_y + 1):
+        for y in range(self.min_y -1, self.max_y + 2):
             row = self.rows[y]
             string0 = ''
             string1 = ''
             string2 = ''
             string3 = ''
-            for x in range(self.min_x, self.max_x + 1):
+            for x in range(self.min_x -1, self.max_x + 2):
                 string0 += '+----------'
                 if row[x] != None:
                     line1, line2, line3 = row[x].tile_guts()
@@ -164,8 +164,35 @@ class Board:
         return self.min_x, self.max_x, self.min_y, self.max_y
 
 
+
+
+
 board = Board()
-board.place_tile(t1, 0, 72, 71)
-board.place_tile(t8, 1, 71, 72)
-board.place_tile(t8, 2, 73, 71)
 board.print_board()
+
+draw = input('press 1 to draw a tile ')
+if draw == '1':
+    tile = draw_tile()
+    tile_state = TileState(tile, 0)
+    tile_state.print()
+    current_rotation = 0
+    while True:
+        action = input('would you like to place (p) or rotate (r) the tile? ')
+        if action == 'r':
+            tile_state.roation += 1
+            current_rotation +=1
+            tile_state.print()
+        else:
+            break
+    if action == 'p':
+        where = input('which x, y coordinate? ')
+        coordinates = where.split(',')
+        x = int(coordinates[0])
+        y = int(coordinates[1])
+        board.place_tile(tile, current_rotation, x, y)
+        board.print_board()
+
+
+
+else:
+    print("?")
